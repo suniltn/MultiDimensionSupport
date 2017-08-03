@@ -1,0 +1,67 @@
+                       Instructions for Generating new Dimension to Support multiple screen sizes
+
+
+Background:
+-----------
+
+FF_Auto_Navigation project has a folder dimens_tools. Inside the this folder there is a Java Application file  DimenConverterTool.java. This is a independent java application with a main method. Use this class to generate the dimes automatically.
+
+
+Step 1: Compile if need DimenCoverter.class doesn't exist or you need recompile it
+----------------
+
+Navigate to the folder PROJECT_HOME/dimens_tools. You can locate DimenConverterTool.java file here.
+Compile the java Class if you don’t have it here using command below:
+
+ > javac DimenConverterTool.java
+
+(You have to compile it only once as a setup process)
+
+Step 2: Run
+------------
+Execute command : > java DimenConverterTool
+
+
+After execution of the above command the tool deletes the old dimensions.xml in all the values folder and recreates the new files based on the base file.
+
+For the FF_NAV project the Base file is: /app/src/main/res/values-sw1200dp/dimens.xml
+
+The values mentioned in UI Spec is based on screen size 1200 dp. So all those values goes into the base file : values-sw1200dp/dimens.xml
+
+When you run the tool it picks the values from the base file converts the values in below 3 formats:
+
+/app/src/main/res/values-sw768dp/dimens.xml. (64% of the value in 1200dp screen )
+/app/src/main/res/values-sw900dp/dimens.xml  (75% of the value in 1200dp screen)
+/app/src/main/res/values-sw411dp/dimens.xml.  (34% of the value in 1200dp screen)
+
+/app/src/main/res/values/dimens.xml (Default is 411dp, i.e. 34% of 1200dp value)
+
+
+Extension for more screen sizes:
+----------------------------------
+
+If you want to support for more screen sizes then you have to add to  DimenConverterTool.java as shown in the example below:
+
+Lets say now we have to support for a new screen size : 20%  (tiny screen) add the below code  as mentioned in the Markers# in code:
+
+MARKER #1.  private static final Double val_0_20 = new Double(0.20);
+
+MARKER #2.   ArrayList<String> list_0_20 = new ArrayList();
+
+MARKER #3.  list_0_20.add("<resources>");
+
+MARKER # 4. map.put(val_0_20, list_0_20);
+
+MARKER #5.  fileNameMap.put(val_0_20, "../app/src/main/res/values-sw768dp/dimens.xml");
+
+MARKER #6. In method convertToNewDimens(..) add the new case 
+     else if (factor.doubleValue() == 0.20) {
+            save(fileNameMap.get(val_0_20), resultList);
+}
+
+
+Change the Default dimes (values/dimens.xml):
+--------------------------------------------
+
+Modify the code accordingly around the comment  //# DEFAULT MARKER
+
