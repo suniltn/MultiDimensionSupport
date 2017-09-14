@@ -13,11 +13,13 @@ import java.util.Map.Entry;
 
 /* Limitation of Tool :
     All values in default dimens must be in dp
-    create folders manually : values-sw768dp , values-sw1200dp ,values-sw900dp etc..
-    recreates dimens file automatically
+    create folders manually : values-sw1200dp ,values-sw900dp, values-sw768dp,
+    values-sw411dp, etc..
+    Delete existing file manually
+    There must be no comment or new line in between
  */
 public class DimenConverterTool {
-
+    private static final String LINE_SEPARATOR = "\r\n";
     /**
      * You can change your factors here. The current factors are just for the demo
      */
@@ -25,12 +27,13 @@ public class DimenConverterTool {
     private static final Double val_0_64 = new Double(0.64);
     private static final Double val_0_75 = new Double(0.75);
     private static final Double val_0_34 = new Double(0.34);
+    private static final Double val_0_30 = new Double(0.30);
     private static final Double val_100 = new Double(1.0);
 
 
-    private static Map<Double, String> fileNameMap = new HashMap();
+    private static Map<Double, String> fileNameMap = new HashMap<>();
 
-    private static Map<Double, List<String>> map = new HashMap();
+    private static Map<Double, List<String>> map = new HashMap<>();
 
     static String folderPath = "../app/src/main/res/";
     static String filePath = "../app/src/main/res/values-sw1200dp/dimens.xml";
@@ -40,29 +43,28 @@ public class DimenConverterTool {
     public static void main(String[] args) throws IOException {
 
         //# MARKER 2
-        ArrayList<String> list_0_64 = new ArrayList();
-        ArrayList<String> list_0_75 = new ArrayList();
-        ArrayList<String> list_0_34 = new ArrayList();
+        ArrayList<String> list_0_64 = new ArrayList<>();
+        ArrayList<String> list_0_75 = new ArrayList<>();
+        ArrayList<String> list_0_34 = new ArrayList<>();
+        ArrayList<String> list_0_30 = new ArrayList<>();
 
 
         //# MARKER 3
-       list_0_64.add("<resources>");
-       list_0_75.add("<resources>");
-       list_0_34.add("<resources>");
+        list_0_64.add("<resources>");
+        list_0_75.add("<resources>");
+        list_0_34.add("<resources>");
+        list_0_30.add("<resources>");
 
         //# MARKER 4
         map.put(val_0_64, list_0_64);
         map.put(val_0_75, list_0_75);
         map.put(val_0_34, list_0_34);
-
-
-
+        map.put(val_0_30, list_0_30);
 
         //# MARKER 5
-        fileNameMap.put(val_0_64, "../app/src/main/res/values-sw768dp/dimens.xml");
         fileNameMap.put(val_0_75, "../app/src/main/res/values-sw900dp/dimens.xml");
+        fileNameMap.put(val_0_64, "../app/src/main/res/values-sw768dp/dimens.xml");
         fileNameMap.put(val_0_34, "../app/src/main/res/values-sw411dp/dimens.xml");
-
 
         createFolderAndFiles();
 
@@ -78,10 +80,6 @@ public class DimenConverterTool {
             }
 
         }
-
-
-
-
     }
 
     private static void createFolderAndFiles() {
@@ -100,9 +98,7 @@ public class DimenConverterTool {
                 System.out.println("cannot crate folders in the metioned path , may be permission issue ");
               e.printStackTrace();
             }
-
         }
-
     }
 
     private static void convertToNewDimens(Double factor, List<String> resultList) throws IOException {
@@ -121,24 +117,23 @@ public class DimenConverterTool {
         String strLine;
         while ((strLine = br.readLine()) != null) {
             strLine.trim();
-
             modifyLine(strLine, factor, resultList);
-
         }
         br.close();
-       resultList.add("</resources>");
+        resultList.add("</resources>");
 
         for (String str : resultList) {
             System.out.println(factor + str);
         }
-        if (factor.doubleValue() == 0.75) {
+        if (factor.doubleValue() == val_0_75) {
             save(fileNameMap.get(val_0_75), resultList);
-        } else if (factor.doubleValue() == 0.34) {
+        }  else if (factor.doubleValue() == val_0_64) {
+            save(fileNameMap.get(val_0_64), resultList);
+        }else if (factor.doubleValue() == val_0_34) {
             save(fileNameMap.get(val_0_34), resultList);
+        } else if (factor.doubleValue() == val_0_30) {
             //# DEFAULT MARKER
             save(deafultDimen, resultList);
-        } else if (factor.doubleValue() == 0.64) {
-            save(fileNameMap.get(val_0_64), resultList);
         }
         //# MARKER 6
     }
@@ -146,13 +141,13 @@ public class DimenConverterTool {
     public static void save(String fileName, List<String> resultList) throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(new FileOutputStream(fileName));
         for (String str : resultList)
-            pw.println(str);
+            pw.print(str + LINE_SEPARATOR);
         pw.close();
     }
 
     public static void save(String fileName, String tag) throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(new FileOutputStream(fileName));
-        pw.println(tag);
+        pw.print(tag + LINE_SEPARATOR);
         pw.close();
     }
 
@@ -179,8 +174,6 @@ public class DimenConverterTool {
             // System.out.println(convertedDimes);
             resultList.add(convertedDimes);
             return;
-
         }
-
     }
 }
