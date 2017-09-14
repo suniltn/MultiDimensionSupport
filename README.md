@@ -11,7 +11,7 @@ Android can have multiple values folder based on screen dimensions and size. The
 
 
 
-2. dd below code to build.gadle , This code assumes  values-sw1200dp as the base version and creates other new dimen files
+2. add below code to build.gadle , This code assumes  values-sw1200dp as the base version and creates other dimen files
 
 task generateDimensReource (type: Exec) {
     println "@@@start to run dimens_tools!!!!"
