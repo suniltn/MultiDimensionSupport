@@ -4,7 +4,7 @@
 Background:
 -----------
 
-FF_Auto_Navigation project has a folder dimens_tools. Inside the this folder there is a Java Application file  DimenConverterTool.java. This is a independent java application with a main method. Use this class to generate the dimes automatically.
+X project has a folder dimens_tools. Inside  this folder there is a Java Application file  DimenConverterTool.java. This is a independent java application with a main method. Use this class to generate the dimes automatically.
 
 
 Step 1: Compile if need DimenCoverter.class doesn't exist or you need recompile it
@@ -24,7 +24,7 @@ Execute command : > java DimenConverterTool
 
 After execution of the above command the tool deletes the old dimensions.xml in all the values folder and recreates the new files based on the base file.
 
-For the FF_NAV project the Base file is: /app/src/main/res/values-sw1200dp/dimens.xml
+For the X project the Base file is: /app/src/main/res/values-sw1200dp/dimens.xml
 
 The values mentioned in UI Spec is based on screen size 1200 dp. So all those values goes into the base file : values-sw1200dp/dimens.xml
 
